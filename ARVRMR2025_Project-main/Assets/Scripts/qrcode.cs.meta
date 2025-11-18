@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 62814a65b1d5fa24283e03227c05ddfe
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - sketchObject: {fileID: 8315989594551212550, guid: 3063e3d523c8923408b05a01f65e921c,
+      type: 3}
+  - qrCodeObject: {fileID: 2782458547446153729, guid: 3eeaf8b705c516944973fc3224047e10,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

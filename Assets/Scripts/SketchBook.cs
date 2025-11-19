@@ -7,8 +7,10 @@ using UnityEngine.InputSystem;
 
 public class SketchBook : MonoBehaviour
 {
-    public Texture2D texture; // 스케치북 텍스처
-    public static Color drawColor; // 텍스트 색상
+    // 스케치북 텍스처
+    public Texture2D texture;
+    // 정적 드로잉 색상 (전역으로 사용)
+    public static Color drawColor;
     public int brushSize = 5; // 기본 브러시 크기
     public bool drawTrue;
 
@@ -25,11 +27,13 @@ public class SketchBook : MonoBehaviour
 
     private void Awake()
     {
-    
         Renderer renderer = GetComponent<Renderer>();
-        texture = new Texture2D(1024, 768, TextureFormat.RGBA32, false); // 스케치북 크기
+        // 텍스처 초기화 (1024x768)
+        // TextureFormat.RGBA32는 투명도를 포함하며, Read/Write가 필요할 때 설정해야 합니다. (이 스크립트는 Write만 함)
+        texture = new Texture2D(1024, 768, TextureFormat.RGBA32, false);
         renderer.material.mainTexture = texture;
 
+        // URP 쉐이더 설정 (기존과 동일)
         Shader transparentShader = Shader.Find("Universal Render Pipeline/Unlit");
         if (transparentShader != null)
         {
@@ -57,35 +61,25 @@ public class SketchBook : MonoBehaviour
 
     private void Update()
     {
-        // --- (수정) 조이스틱 입력으로 브러시 크기 조절 ---
+        // 조이스틱 입력으로 브러시 크기 조절 (기존 로직 유지)
         if (joystickAction != null)
         {
-            // 조이스틱의 Vector2 값을 읽어옴
             Vector2 joystickValue = joystickAction.action.ReadValue<Vector2>();
-            float horizontalInput = joystickValue.x; 
+            float horizontalInput = joystickValue.x;
 
-            // 1. 조이스틱이 데드존(Threshold) 밖에 있는지 확인
             if (Mathf.Abs(horizontalInput) > joystickThreshold)
             {
-                // 2. 입력 강도와 속도, 시간에 비례하여 크기 변경
-                // (horizontalInput이 음수(왼쪽)면 감소, 양수(오른쪽)면 증가)
                 float changeAmount = horizontalInput * brushSizeChangeSpeed * Time.deltaTime;
-
-                // 3. 실수(float) 크기에 변경 값을 더함
                 currentBrushSize += changeAmount;
-
-                // 4. 최소/최대치를 넘지 않도록 제한
                 currentBrushSize = Mathf.Clamp(currentBrushSize, minBrushSize, maxBrushSize);
-
-                // 5. 최종 값을 반올림하여 실제 brushSize(int)에 적용
                 brushSize = Mathf.RoundToInt(currentBrushSize);
             }
         }
     }
 
-    public void DrawAtUV(Vector2 uv) // 드로잉 함수
+    // 드로잉 함수 (기존 로직 유지)
+    public void DrawAtUV(Vector2 uv)
     {
-        // (기존 코드와 동일)
         int pixelX = (int)(uv.x * texture.width);
         int pixelY = (int)(uv.y * texture.height);
 
@@ -93,12 +87,16 @@ public class SketchBook : MonoBehaviour
         {
             for (int y = -brushSize; y <= brushSize; y++)
             {
-                int px = pixelX + x;
-                int py = pixelY + y;
-
-                if (px >= 0 && px < texture.width && py >= 0 && py < texture.height)
+                // 원형 브러시 효과 (옵션)
+                if (x * x + y * y <= brushSize * brushSize)
                 {
-                    texture.SetPixel(px, py, drawColor);
+                    int px = pixelX + x;
+                    int py = pixelY + y;
+
+                    if (px >= 0 && px < texture.width && py >= 0 && py < texture.height)
+                    {
+                        texture.SetPixel(px, py, drawColor);
+                    }
                 }
             }
         }
@@ -107,7 +105,8 @@ public class SketchBook : MonoBehaviour
         drawTrue = true;
     }
 
-    public void ClearTexture() // 스케치북 전체 지우기
+    // 스케치북 전체 지우기 (기존 로직 유지)
+    public void ClearTexture()
     {
         Color32[] colors = new Color32[texture.width * texture.height];
         Color32 bgColor = backgroundColor;
@@ -122,28 +121,8 @@ public class SketchBook : MonoBehaviour
         drawTrue = false;
     }
 
-    public static Color PickColorFromTexture(Renderer targetRenderer, Vector2 uv)
-    {
-        Texture2D texture = targetRenderer.material.mainTexture as Texture2D;
-
-        if (texture == null)
-        {
-            Debug.LogError("The target Renderer's main texture is not a readable Texture2D. Cannot pick color.");
-            return Color.clear;
-        }
-
-        // 픽셀 좌표 계산
-        int pixelX = Mathf.FloorToInt(uv.x * texture.width);
-        int pixelY = Mathf.FloorToInt(uv.y * texture.height);
-
-        // 경계 검사
-        if (pixelX < 0 || pixelX >= texture.width || pixelY < 0 || pixelY >= texture.height)
-        {
-            return Color.clear;
-        }
-
-        // 색상 읽기
-        return texture.GetPixel(pixelX, pixelY);
-    }
-
+    /* * 주의: 이 함수는 더 이상 DrawWithRayInteractor.cs에서 사용되지 않습니다.
+     * UI 기반 색상 피커가 이 로직을 대신합니다.
+     * public static Color PickColorFromTexture(Renderer targetRenderer, Vector2 uv) { ... }
+    */
 }

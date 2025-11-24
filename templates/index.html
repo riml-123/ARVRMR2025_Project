@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Atelier des Lumières</title>
+    <!-- Google Fonts: 우아한 명조체 -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;500&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS (스타일링 보조) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-canvas: #fdfbf7;
+            --frame-gold: #c5a059;
+            --frame-shadow: #8b7355;
+            --text-color: #4a4a4a;
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            font-family: 'Noto Serif KR', serif;
+            color: var(--text-color);
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* 인상주의 액자 스타일 */
+        .frame {
+            background-color: #fff;
+            padding: 15px;
+            box-shadow: 
+                0 10px 20px rgba(0,0,0,0.15),
+                0 0 0 1px #e6e6e6 inset,
+                0 0 0 8px #fff inset,
+                0 0 0 9px #dcdcdc inset;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .frame:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 30px rgba(0,0,0,0.2),
+                0 0 0 1px #e6e6e6 inset,
+                0 0 0 8px #fff inset,
+                0 0 0 9px var(--frame-gold) inset;
+        }
+
+        /* 캔버스 질감 효과 */
+        .painting-effect {
+            filter: contrast(105%) sepia(10%);
+        }
+
+        .qr-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+
+        .frame:hover .qr-overlay {
+            opacity: 1;
+        }
+
+        .heart-btn {
+            transition: transform 0.1s;
+        }
+        .heart-btn:active {
+            transform: scale(0.9);
+        }
+        .heart-icon.liked {
+            fill: #e53e3e;
+            stroke: #e53e3e;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-8">
+
+    <header class="text-center mb-16 mt-8">
+        <h1 class="text-4xl md:text-6xl text-gray-800 mb-4 tracking-wider">L'Atelier Digital</h1>
+        <p class="text-gray-500 italic text-lg">Digital Impressionism Archive</p>
+    </header>
+
+    <main class="max-w-7xl mx-auto">
+        <!-- Masonry-like Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {% for image in images %}
+            <div class="flex flex-col items-center">
+                
+                <!-- 그림 액자 -->
+                <div class="frame w-full relative group cursor-pointer bg-white">
+                    <!-- 메인 이미지 -->
+                    <div class="aspect-auto overflow-hidden relative">
+                        <img src="/image/{{ image.filename }}" alt="Artwork" class="painting-effect w-full h-auto object-cover block">
+                        
+                        <!-- QR 코드 오버레이 (호버 시 등장) -->
+                        <div class="qr-overlay absolute inset-0 flex flex-col justify-center items-center p-4">
+                            <p class="font-serif text-gray-700 mb-2 text-sm tracking-widest">DOWNLOAD ARTWORK</p>
+                            <img src="/qr_image/{{ image.filename }}" class="w-32 h-32 border-4 border-white shadow-lg mb-2">
+                            <a href="/image/{{ image.filename }}" download class="text-xs text-gray-500 hover:text-black underline mt-2">
+                                Direct Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 작품 정보 및 좋아요 -->
+                <div class="mt-6 text-center w-full flex justify-between items-center px-4">
+                    <div class="text-left">
+                        <p class="text-xs text-gray-400 uppercase tracking-widest">Captured at</p>
+                        <p class="text-sm text-gray-600 font-serif">{{ image.timestamp }}</p>
+                    </div>
+                    
+                    <button onclick="toggleLike('{{ image.filename }}')" class="heart-btn flex items-center space-x-2 group">
+                        <span id="count-{{ image.filename }}" class="text-lg font-medium text-gray-600 font-serif">{{ image.likes }}</span>
+                        <svg id="icon-{{ image.filename }}" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 group-hover:text-red-400 heart-icon {{ 'liked' if image.likes > 0 else '' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if images|length == 0 %}
+        <div class="text-center py-20">
+            <p class="text-gray-400 text-xl font-serif">The gallery is currently empty.</p>
+            <p class="text-gray-400 text-sm mt-2">Upload images to begin the exhibition.</p>
+        </div>
+        {% endif %}
+    </main>
+
+    <script>
+        // 좋아요 기능 (비동기 처리)
+        async function toggleLike(filename) {
+            try {
+                const response = await fetch(`/like/${filename}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // 숫자 업데이트
+                    document.getElementById(`count-${filename}`).innerText = data.likes;
+                    
+                    // 하트 아이콘 스타일 변경
+                    const icon = document.getElementById(`icon-${filename}`);
+                    icon.classList.add('liked');
+                    icon.style.fill = "#e53e3e";
+                    icon.style.stroke = "#e53e3e";
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

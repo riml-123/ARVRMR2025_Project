@@ -23,6 +23,7 @@ public class DrawingTextureManager : MonoBehaviour
     private bool _hasStyle;
     public bool HasStyle => _hasStyle;
     private bool _contentChanged;
+    private bool _contentChanged2;
     private bool _styleChanged;
     
 
@@ -38,6 +39,7 @@ public class DrawingTextureManager : MonoBehaviour
         _hasStyle = false;
         _styleChanged = false;
         _contentChanged = false;
+        _contentChanged2 = false;
     }
 
     public void SetContentOri(Texture content)
@@ -58,19 +60,21 @@ public class DrawingTextureManager : MonoBehaviour
 
     public void SetContentST(Texture content)
     {
-        if (_hasStyle)
-            _styleChanged = true;
-        _hasStyle = true;
-
         _contentSTp = _contentST;
         _contentST = content;
 
-        SetMaterialStyle(_contentST);
+        if (_hasStyle)
+            _styleChanged = true;
+        else
+            SetMaterialStyle(_contentST);
+
+        _hasStyle = true;
     }
 
     public void SetMaterialContent_(Texture output)
     {
         SetMaterialContent(output);
+        SetMaterialStyle(_contentST);
     }
 
     public void SetForErase()
@@ -80,12 +84,14 @@ public class DrawingTextureManager : MonoBehaviour
 
     public void SetForNewContent()
     {
+        SetMaterialContent(_contentSel);
         SetMaterialStyle(null);
         SetMaterialMask(null);
 
         _hasStyle = false;
         _styleChanged = false;
         _contentChanged = true;
+        _contentChanged2 = true;
     }
 
     public void SetOutput(Texture output)
@@ -113,7 +119,12 @@ public class DrawingTextureManager : MonoBehaviour
         // return targetRenderer.material.GetTexture("_MainTex");
         return targetRenderer.material.mainTexture;
     }
-    // Set Material Texture
+    public Texture GetOutput()
+    {
+        return _contentMat;
+    }
+    // Set
+    // Material Texture
     private void SetMaterialContent(Texture content)
     {
         targetRenderer.material.mainTexture = content;
@@ -142,6 +153,13 @@ public class DrawingTextureManager : MonoBehaviour
     {
         bool value = _contentChanged;
         _contentChanged = false;
+        return value;
+    }
+
+    public bool ContentChanged2()
+    {
+        bool value = _contentChanged2;
+        _contentChanged2 = false;
         return value;
     }
 }

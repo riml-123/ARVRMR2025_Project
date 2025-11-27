@@ -4,6 +4,9 @@ using UnityEngine.Networking;
 
 public class SDImg2ImgClient : MonoBehaviour
 {
+    [Header("Apply Result")]
+    public DrawingTextureManager textureManager;
+
     [Header("Server")]
     public string inferUrl = "http://127.0.0.1:5000/infer";
     public int timeoutSec = 180;
@@ -19,8 +22,6 @@ public class SDImg2ImgClient : MonoBehaviour
     public int seed = -1;                        // <0 이면 무시
     public int width = 512, height = 512;            // 0이면 원본 해상도 유지
 
-    [Header("Apply Result")]
-    public Renderer targetRenderer;              // 결과 텍스처 적용 대상
 
     public void Send(Texture source)
     {
@@ -65,13 +66,10 @@ public class SDImg2ImgClient : MonoBehaviour
                 yield break;
             }
 
-            if (targetRenderer != null)
-            {
-                targetRenderer.material.mainTexture = outTex;
-            }
-              
+            textureManager.SetContentSD(outTex);
 
             Debug.Log("[infer] Success");
+            req.Dispose();
         }
     }
 
@@ -121,11 +119,12 @@ public class SDImg2ImgClient : MonoBehaviour
             {
                 byte[] outBytes = req.downloadHandler.data;
                 Texture2D outTex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-                if (outTex.LoadImage(outBytes) && targetRenderer != null)
-                    targetRenderer.material.mainTexture = outTex;
+                if (outTex.LoadImage(outBytes))
+                    textureManager.SetContentSD(outTex);
 
                 Debug.Log("[infer] Success");
             }
+            req.Dispose();
         }
 
         // 요청이 끝난 후 콜백 호출

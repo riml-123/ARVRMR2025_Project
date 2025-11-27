@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using static UnityEngine.Rendering.DebugUI.MessageBox;
 
 [RequireComponent(typeof(Renderer))]
 public class DrawingTextureManager : MonoBehaviour
@@ -90,6 +91,7 @@ public class DrawingTextureManager : MonoBehaviour
     public void SetOutput(Texture output)
     {
         _contentMat = output;
+        SetMaterialContent(_contentMat);
     }
 
     public Texture GetContentSel()
@@ -108,6 +110,7 @@ public class DrawingTextureManager : MonoBehaviour
     }
     public Texture GetMaterialContent()
     {
+        // return targetRenderer.material.GetTexture("_MainTex");
         return targetRenderer.material.mainTexture;
     }
     // Set Material Texture

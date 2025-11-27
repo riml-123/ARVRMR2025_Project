@@ -32,6 +32,7 @@ public class MaskDrawingManager : MonoBehaviour
     {
         // 마스크 텍스처 생성 (처음엔 전부 검정 -> content만 보임)
         _maskTex = new Texture2D(maskResolution, maskResolution, TextureFormat.R8, false);
+        _maskTex.filterMode = FilterMode.Bilinear;
         ClearMask(Color.black);
         _maskTex.Apply();
 
@@ -92,6 +93,10 @@ public class MaskDrawingManager : MonoBehaviour
                 _maskTex
                 );
         textureManager.SetOutput(newContent);
+
+        ClearMask(Color.black);
+        _maskTex.Apply();
+        textureManager.SetMaterialMask(_maskTex);
     }
 
     void ShootRayAndPaint()

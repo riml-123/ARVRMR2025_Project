@@ -2,12 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
+using TMPro;
 
 public class SendTextureToFlask : MonoBehaviour
 {
     public DrawingTextureManager textureManager;
     public GameObject sketchObject;
     public string flaskUrl = "http://gawon.store/upload";
+    public TextMeshProUGUI uiText;
 
     public void OnButtonClick()
     {
@@ -32,6 +34,7 @@ public class SendTextureToFlask : MonoBehaviour
         else
         {
             Debug.Log("이미지 전송 성공");
+            uiText.text = "Your exhibition is ready! \r\nVisit the website to enjoy your artwork along with pieces from your friends.";
         }
     }
 }

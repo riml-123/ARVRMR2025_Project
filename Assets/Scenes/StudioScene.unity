@@ -2781,7 +2781,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textureManager: {fileID: 923369758}
   sketchObject: {fileID: 1699744209}
-  flaskUrl: http://gawon.store/upload
+  flaskUrl: http://121.167.170.206/upload
   uiText: {fileID: 1640793860}
 --- !u!4 &485373584
 Transform:
@@ -4366,7 +4366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetRenderer: {fileID: 923369759}
-  _contentMat: {fileID: 0}
+  _contentMat: {fileID: 8400000, guid: 8c0bbdbf7cf8bdf4ea99f4dba5abc3a5, type: 2}
 --- !u!23 &923369759
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -13,6 +13,10 @@ public class SDButton : MonoBehaviour
     public Button buttonST;          // 화풍변환 UI 버튼
     public GameObject loadingIcon; // (선택) 로딩 스피너/텍스트 오브젝트
 
+    [Header("Options")]
+    public bool runStableDiffusion = true;  // Inspector에서 체크/해제
+
+
     private Texture source;         // 보낼 이미지 texture
     private DateTime startTime;
 
@@ -78,9 +82,18 @@ public class SDButton : MonoBehaviour
     {
         print("Response sent, button disabled.");
         startTime = DateTime.Now;
-        // 코루틴으로 요청 완료를 기다림
-        yield return StartCoroutine(client.SendAndReceiveWithCallback(source, OnResponseReceived));
+
+        // runStableDiffusion 플래그를 그대로 넘겨서
+        // 서버 쪽 use_sd 를 true/false로 설정
+        yield return StartCoroutine(
+            client.SendAndReceiveWithCallback(
+                source,
+                OnResponseReceived,
+                runSD: runStableDiffusion
+            )
+        );
     }
+
 
     private void OnResponseReceived()
     {

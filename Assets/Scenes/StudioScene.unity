@@ -1151,7 +1151,7 @@ GameObject:
   - component: {fileID: 224829895}
   m_Layer: 3
   m_Name: Plane (3)
-  m_TagString: Untagged
+  m_TagString: style4
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2220,7 +2220,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 441914330}
-  - component: {fileID: 441914331}
+  - component: {fileID: 441914332}
   m_Layer: 0
   m_Name: StyleTransferManager
   m_TagString: Untagged
@@ -2243,7 +2243,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1061575599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &441914331
+--- !u!114 &441914332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2252,7 +2252,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 441914329}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a231dca9ace43b47a74dce68ff67140, type: 3}
+  m_Script: {fileID: 11500000, guid: 3569d4c7c2a0b704b8deca056b81e527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rayInteractor: {fileID: 1536605421}
@@ -2262,16 +2262,15 @@ MonoBehaviour:
       m_Name: Trigger Button
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: ebfd8f03-b280-4f00-8b12-96ef8e7fc334
+      m_Id: aa2e6ea1-a2a6-4046-9746-4a34f3ff42b6
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
-  AdaINModel: {fileID: 5022602860645237092, guid: cd77d0ae4a3e83542a7737f59cdca0b4,
-    type: 3}
   textureManager: {fileID: 923369758}
+  styleReference: {fileID: 2002437107}
 --- !u!1 &452442172
 GameObject:
   m_ObjectHideFlags: 0
@@ -2320,7 +2319,7 @@ GameObject:
   - component: {fileID: 456119906}
   m_Layer: 3
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: style1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4839,7 +4838,7 @@ GameObject:
   - component: {fileID: 1026746292}
   m_Layer: 3
   m_Name: Plane (2)
-  m_TagString: Untagged
+  m_TagString: style3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6898,7 +6897,7 @@ GameObject:
   - component: {fileID: 1418169877}
   m_Layer: 3
   m_Name: Plane (1)
-  m_TagString: Untagged
+  m_TagString: style2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10830,9 +10829,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textureManager: {fileID: 923369758}
-  inferUrl: https://mariela-multifurcate-semioptimistically.ngrok-free.dev/infer
+  inferUrl: http://127.0.0.1:5000/infer
   timeoutSec: 180
-  staticPrompt: best quailty, hyper detail, realistic, colorful
+  staticPrompt: best quailty, hyper detail, realistic
   dynamicPrompt: sunflower
   strength: 0.8
   guidanceScale: 0
@@ -10840,6 +10839,7 @@ MonoBehaviour:
   seed: -1
   width: 512
   height: 512
+  lastStyleResults: []
 --- !u!114 &2002437108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10857,6 +10857,7 @@ MonoBehaviour:
   button: {fileID: 1259668219}
   buttonST: {fileID: 344300905}
   loadingIcon: {fileID: 0}
+  runStableDiffusion: 1
 --- !u!1 &2053044032
 GameObject:
   m_ObjectHideFlags: 0
